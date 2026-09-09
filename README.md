@@ -23,5 +23,4 @@ Produce daily sales summaries from orders, customers, and products.
 
 Create a branch, make changes, open a pull request, pass automated checks, review, and merge into main.
 
-Deployment automation will be added in a later lesson.# retail-data-pipeline
-Learning CI/CD with GitHub Actions and Databricks
+Deployment automation will be added in a later lesson
