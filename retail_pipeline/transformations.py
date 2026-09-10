@@ -18,4 +18,4 @@ def calculate_order_revenue(
     if discount > gross_revenue:
         raise ValueError("Discount cannot exceed gross revenue")
 
-    return gross_revenue - discount
+    return quantity * (unit_price - discount)
