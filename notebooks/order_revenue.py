@@ -41,6 +41,29 @@ display(order_revenue)
 
 # COMMAND ----------
 
+
+expected = [
+    (1001, Decimal("180.00")),
+    (1002, Decimal("150.00")),
+    (1003, Decimal("0.00")),
+]
+
+actual = [
+    (row.order_id, row.revenue)
+    for row in order_revenue.select("order_id", "revenue")
+    .orderBy("order_id")
+    .collect()
+]
+
+if actual != expected:
+    raise ValueError(
+        f"Revenue validation failed: expected {expected}, got {actual}"
+    )
+
+print("Revenue validation passed for all 3 sample orders.")
+
+
+
 order_revenue.write \
     .format("delta") \
     .mode("overwrite") \
