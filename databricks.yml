@@ -28,6 +28,6 @@ targets:
   ci:
     workspace:
       host: https://dbc-5c5031b0-0b69.cloud.databricks.com
-            root_path: /Workspace/Users/shubhamgaidhane77@gmail.com/retail-cicd/${bundle.name}/${bundle.target}
+      root_path: /Workspace/Users/shubhamgaidhane77@gmail.com/retail-cicd/${bundle.name}/${bundle.target}
     variables:
       target_schema: retail_ci
