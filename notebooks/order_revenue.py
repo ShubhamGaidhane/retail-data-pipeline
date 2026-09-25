@@ -1,15 +1,14 @@
 # Databricks notebook source
-spark.sql("""
-    SELECT
-        current_catalog() AS catalog,
-        current_schema() AS schema
-""").show(truncate=False)
+dbutils.widgets.text("target_schema", "retail_dev")
+target_schema = dbutils.widgets.get("target_schema")
 
-spark.sql("SHOW CATALOGS").show(truncate=False)
+if target_schema not in {"retail_dev", "retail_ci"}:
+    raise ValueError(f"Unexpected target schema: {target_schema}")
 
-# COMMAND ----------
+table_name = f"workspace.{target_schema}.order_revenue"
+print(f"Writing to: {table_name}")
 
-spark.sql("CREATE SCHEMA IF NOT EXISTS workspace.retail_dev")
+
 
 # COMMAND ----------
 
@@ -67,11 +66,9 @@ print("Revenue validation passed for all 3 sample orders.")
 order_revenue.write \
     .format("delta") \
     .mode("overwrite") \
-    .saveAsTable("workspace.retail_dev.order_revenue")
+    .saveAsTable(table_name)
+
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC SELECT *
-# MAGIC FROM workspace.retail_dev.order_revenue
-# MAGIC ORDER BY order_id;
+display(spark.table(table_name).orderBy("order_id"))
