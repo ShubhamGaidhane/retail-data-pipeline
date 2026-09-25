@@ -1,0 +1,19 @@
+bundle:
+  name: retail-data-pipeline
+
+resources:
+  jobs:
+    order_revenue_job:
+      name: retail-order-revenue-bundle
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: calculate_order_revenue
+          notebook_task:
+            notebook_path: ./notebooks/order_revenue.py
+
+targets:
+  dev:
+    default: true
+    mode: development
+    workspace:
+      host: https://dbc-5c5031b0-0b69.cloud.databricks.com
