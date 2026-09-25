@@ -1,6 +1,11 @@
 bundle:
   name: retail-data-pipeline
 
+variables:
+  target_schema:
+    description: Schema for the sample order table
+    default: retail_dev
+
 resources:
   jobs:
     order_revenue_job:
@@ -10,6 +15,8 @@ resources:
         - task_key: calculate_order_revenue
           notebook_task:
             notebook_path: ./notebooks/order_revenue.py
+            base_parameters:
+              target_schema: ${var.target_schema}
 
 targets:
   dev:
@@ -17,3 +24,10 @@ targets:
     mode: development
     workspace:
       host: https://dbc-5c5031b0-0b69.cloud.databricks.com
+
+  ci:
+    workspace:
+      host: https://dbc-5c5031b0-0b69.cloud.databricks.com
+      root_path: /Workspace/Shared/retail-cicd/${bundle.name}/${bundle.target}
+    variables:
+      target_schema: retail_ci
