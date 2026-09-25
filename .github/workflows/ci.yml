@@ -52,6 +52,9 @@ jobs:
 
       - name: Validate deployment configuration
         run: databricks bundle validate -t ci
+            
+      - name: Bind existing job to restricted deployment location
+        run: databricks bundle deployment bind order_revenue_job 518513803735252 -t ci --auto-approve
 
       - name: Deploy development pipeline
         run: databricks bundle deploy -t ci
